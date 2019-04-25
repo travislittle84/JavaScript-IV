@@ -23,6 +23,20 @@ class Instructor extends Person {
     grade (student,subject) {
         console.log(`${student.name} receives a perfect score on ${subject}!`);
     }
+    gradeAssignment (student) {
+        let calculateGradeAmount = function (){
+            let min = Math.ceil(1);
+            let max = Math.floor(100);
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        };
+        let decideAddOrSubtract = Math.random();
+        if (decideAddOrSubtract > .49) {
+            student.grade = student.grade + calculateGradeAmount();
+        } else {
+            student.grade = student.grade - calculateGradeAmount();
+        }
+        console.log(`Assignment was graded by ${this.name}, ${student.name}'s grade is now ${student.grade}`)
+    }
 }
 
 class Student extends Person{
@@ -31,6 +45,7 @@ class Student extends Person{
         this.previousBackground = attributues.previousBackground;
         this.className = attributues.className;
         this.favSubjects = attributues.favSubjects;
+        this.grade = attributues.grade;
     }
     listsSubjects () {
         console.log(`My favorite subjects are`);
@@ -43,6 +58,13 @@ class Student extends Person{
     };
     sprintChallenge (subject) {
         console.log(`${this.name} has started Sprint Challenge on ${subject}`);
+    };
+    graduate () {
+        if (this.grade >= 70) {
+            return console.log(`${this.name} has graduated with ${this.grade}! Way to go!`);
+        } else {
+            return console.log (`${this.name} did not qualify to graduate yet. Grade: ${this.grade} Womp womp.`);
+        }
     };
 }
 
@@ -87,13 +109,15 @@ const student_bob = new Student({
     location: 'Denver',
     previousBackground: 'Retail',
     className: 'WebPT6',
-    favSubjects: ['Math', 'Science', 'Programming']
+    favSubjects: ['Math', 'Science', 'Programming'],
+    grade: 40
 });
 
 // Instructor tests
 console.log(instructor_ryan);
 instructor_ryan.demo('math');
 instructor_ryan.grade(student_bob,'math');
+instructor_ryan.gradeAssignment(student_bob);
 console.log(instructor_ryan.speak())
 console.log(instructor_ryan.catchPhrase);
 
@@ -109,3 +133,4 @@ console.log(student_bob.speak());
 student_bob.listsSubjects();
 student_bob.PRAssignment('java');
 student_bob.sprintChallenge('Java 3');
+// student_bob.graduate();
